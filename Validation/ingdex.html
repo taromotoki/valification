@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" autocomplete="off">
+        <div>
+            名前<br>
+            <input type="text" name="name" required/>
+        </div>
+        <div class="js-name2">
+            <br>フリガナ（全角カタカナ）<br>
+            <input type="text" name="name2" required/>
+        </div>
+        <div class="js-name2">
+            <br>フリガナ2（全角カタカナ）<br>
+            <input type="text" name="name2" required/>
+        </div>
+        <div class="js-num">
+            <br>電話番号（半角数字）<br>
+            <input type="text" name="num" required/>
+        </div>
+    </form>
+</body>
+</html>
+<style>
+    .error {
+        color: #f00;
+    }
+</style>
+<script>
+const name2 = document.querySelectorAll('.js-name2 input');
+const num = document.querySelectorAll('.js-num input');
+
+for(let i = 0; i < name2.length; i++) {
+    name2[i].addEventListener('input', name2Validation);
+}
+for(let i = 0; i < num.length; i++) {
+    num[i].addEventListener('input', numValidation);
+}
+function name2Validation(e) {
+    setTimeout(function(){
+    let target = e.target;
+    let value = e.target.value;
+    let parent = e.target.parentNode;
+    if(!value.match(/^[ァ-ヶー　]+$/)){
+        if(!parent.classList.contains('error2')) {
+            parent.classList.add('error2');
+            target.insertAdjacentHTML('afterend','<div class="error name2-error">全角カタカナで入力してください</div>');
+        }
+    } else {
+        if(parent.classList.contains('error2')){
+            parent.classList.remove('error2');
+            parent.querySelector('.name2-error').remove();
+        }
+    }
+    }, 500);
+}
+function numValidation(e) {
+    setTimeout(function(){
+    let target = e.target;
+    let value = e.target.value;
+    let parent = e.target.parentNode;
+    if(!value.match(/^[0-9]+$/)){
+        if(!parent.classList.contains('errorNum')) {
+            parent.classList.add('errorNum');
+            target.insertAdjacentHTML('afterend','<div class="error num-error">半角数字で入力してください</div>');
+        }
+    } else {
+        if(parent.classList.contains('errorNum')){
+            parent.classList.remove('errorNum');
+            parent.querySelector('.num-error').remove();
+        }
+    }
+    }, 500);
+}
+
+</script>
