@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" autocomplete="off">
+        <div>
+            名前<br>
+            <input type="text" name="name" required/>
+        </div>
+        <div class="js-name2">
+            <br>フリガナ（全角カタカナ）<br>
+            <input type="text" name="name2" required/>
+        </div>
+        <div class="js-name2">
+            <br>フリガナ2（全角カタカナ）<br>
+            <input type="text" name="name2" required/>
+        </div>
+        <div class="js-num">
+            <br>電話番号（半角数字）<br>
+            <input type="text" name="num" required/>
+        </div>
+    </form>
+</body>
+</html>
+<style>
+    .error {
+        color: #f00;
+    }
+</style>
+<script>
+function validation(targetClass, matchText, errorText) {
+    const targetEl = document.querySelectorAll(`${targetClass} input`);
+    for(let i = 0; i < targetEl.length; i++) {
+        let timeoutId;
+        targetEl[i].addEventListener('input', (e) => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(function(){
+            let target = e.target;
+            let value = e.target.value;
+            let parent = e.target.parentNode;
+            if(!value.match(matchText)){
+                if(!parent.classList.contains('is-error')) {
+                    parent.classList.add('is-error');
+                    target.insertAdjacentHTML('afterend',`<div class="error ${targetClass.replace('.', '')}-error">${errorText}</div>`);
+                }
+            } else {
+                if(parent.classList.contains('is-error')){
+                    parent.classList.remove('is-error');
+                    parent.querySelector(`${targetClass}-error`).remove();
+                }
+            }
+            }, 500);
+        });
+    }
+}
+
+validation('.js-name2', /^[ァ-ヶー　]+$/,'全角カタカナで入力してください');
+validation('.js-num', /^[0-9]+$/,'半角数字で入力してください');
+
+</script>
