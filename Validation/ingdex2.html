@@ -32,16 +32,16 @@
     }
 </style>
 <script>
-function validation(targetClass, matchText, errorText) {
+const validation = (targetClass, matchText, errorText) => {
     const targetEl = document.querySelectorAll(`${targetClass} input`);
     for(let i = 0; i < targetEl.length; i++) {
         let timeoutId;
         targetEl[i].addEventListener('input', (e) => {
             clearTimeout(timeoutId);
-            timeoutId = setTimeout(function(){
-            let target = e.target;
-            let value = e.target.value;
-            let parent = e.target.parentNode;
+            timeoutId = setTimeout(() => {
+            const target = e.target;
+            const value = e.target.value;
+            const parent = e.target.parentNode;
             if(!value.match(matchText)){
                 if(!parent.classList.contains('is-error')) {
                     parent.classList.add('is-error');
